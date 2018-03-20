@@ -1,12 +1,18 @@
 
 
 ```python
+# Observation 1: Urban drivers as well as urban riders account for the majority of Pyber's employees and clientelle. 
+# Observation 2: Pyber is used least in rural areas and most in urban areas, with suburban use in between. 
+# Observation 3: Rural fares are higher, on average, than urban fares. 
+```
+
+
+```python
 import pandas as pd
 import numpy
 import matplotlib.pyplot as plt
 import seaborn as sb
 %matplotlib inline
-#pip install seaborn
 ```
 
 
@@ -27,8 +33,89 @@ ride_data = pd.read_csv("ride_data.csv")
 ```python
 # Merge csvs into new dataframe 
 merge_data = (pd.merge(city_data, ride_data, on="city"))
-#merge_data.head()
+merge_data.head()
 ```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>city</th>
+      <th>driver_count</th>
+      <th>type</th>
+      <th>date</th>
+      <th>fare</th>
+      <th>ride_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Kelseyland</td>
+      <td>63</td>
+      <td>Urban</td>
+      <td>2016-08-19 04:27:52</td>
+      <td>5.51</td>
+      <td>6246006544795</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Kelseyland</td>
+      <td>63</td>
+      <td>Urban</td>
+      <td>2016-04-17 06:59:50</td>
+      <td>5.54</td>
+      <td>7466473222333</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Kelseyland</td>
+      <td>63</td>
+      <td>Urban</td>
+      <td>2016-05-04 15:06:07</td>
+      <td>30.54</td>
+      <td>2140501382736</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Kelseyland</td>
+      <td>63</td>
+      <td>Urban</td>
+      <td>2016-01-25 20:44:56</td>
+      <td>12.08</td>
+      <td>1896987891309</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Kelseyland</td>
+      <td>63</td>
+      <td>Urban</td>
+      <td>2016-08-09 18:19:47</td>
+      <td>17.91</td>
+      <td>8784212854829</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
 
 
 ```python
@@ -54,8 +141,65 @@ average_fare = average_fare.reset_index(level=None, drop=False, inplace=False)
 total_rides = merge_data.groupby("city").count()["ride_id"]
 total_rides = total_rides.to_frame()
 total_rides = total_rides.reset_index(level=None, drop=False, inplace=False)
-#total_rides.head()
+total_rides.head()
 ```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>city</th>
+      <th>ride_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alvarezhaven</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Alyssaberg</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Anitamouth</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Antoniomouth</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Aprilchester</td>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
 
 
 ```python
@@ -214,12 +358,95 @@ merge4.head()
 
 
 ```python
+urban = merge4[merge4["type"] == "Urban"]
+#urban.head()
+suburban = merge4[merge4["type"] == "Suburban"]
+#suburban.head() 
+rural = merge4[merge4["type"] == "Rural"]
+#rural.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>city</th>
+      <th>fare</th>
+      <th>ride_id</th>
+      <th>type</th>
+      <th>driver_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>17</th>
+      <td>East Leslie</td>
+      <td>33.660909</td>
+      <td>11</td>
+      <td>Rural</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>East Stephen</td>
+      <td>39.053000</td>
+      <td>10</td>
+      <td>Rural</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>East Troybury</td>
+      <td>33.244286</td>
+      <td>7</td>
+      <td>Rural</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Erikport</td>
+      <td>30.043750</td>
+      <td>8</td>
+      <td>Rural</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Hernandezshire</td>
+      <td>32.002222</td>
+      <td>9</td>
+      <td>Rural</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
 # Attempt at using seaborn's lmplot to create bubble chart
 palette = ["Gold", "#87cefa", "#f08080"]
-#plt.xlim(0, 40)
-#plt.ylim(0, 50)
 s = merge4["driver_count"]
-plot = sb.lmplot(x="ride_id", y="fare", aspect=4, data=merge4, hue="type", palette=palette, scatter_kws={"s": 300})
+plot = sb.lmplot(x="ride_id", y="fare", aspect=3.5, data=merge4, hue="type", palette=palette, scatter_kws={"s": 300})
 plot.set(ylim=(15, 45))
 plot.set(xlim=(0, 40))
 ```
@@ -227,56 +454,66 @@ plot.set(xlim=(0, 40))
 
 
 
-    <seaborn.axisgrid.FacetGrid at 0xc736ba8>
+    <seaborn.axisgrid.FacetGrid at 0x268facf8>
 
 
 
 
-![png](output_10_1.png)
+![png](output_12_1.png)
 
 
 
 ```python
 # Attempt at using Seaborn's pairplot to create bubble chart 
 palette = ["Gold", "#87cefa", "#f08080"]
+
 sb.pairplot(merge4, hue="type", palette=palette, x_vars="ride_id", y_vars="fare", kind='scatter', size=5, aspect=2)
 #pairplot.set(ylim=(15,45))
-#sb.plt.ylim(15, 45)
-#sb.plt.xlim(0, 40)
+plt.ylim(15, 45)
+plt.xlim(0, 40)
+plt.title("Pyber Ride Data")
+plt.xlabel("Total Rides")
+plt.ylabel("Average Fare($)")
 ```
 
 
 
 
-    <seaborn.axisgrid.PairGrid at 0x1c743c18>
+    Text(29.4954,0.5,'Average Fare($)')
 
 
 
 
-![png](output_11_1.png)
+![png](output_13_1.png)
 
 
 
 ```python
 # Attempt at using Matplotlib to create bubble chart 
-colors = ["Gold", "#87cefa", "#f08080"]
-plt.ylim(10,50)
+#colors = ["Gold", "#87cefa", "#f08080"]
+plt.ylim(15,50)
 plt.xlim(0,40)
-plt.scatter(x=merge4['ride_id'], y=merge4['fare'], s=merge4['driver_count']*4, c=colors, alpha=0.4)
+plt.scatter(x=urban['ride_id'], y=urban['fare'], s=urban['driver_count']*2, c="Gold", alpha=0.4, label="Urban")
+plt.scatter(x=suburban['ride_id'], y=suburban['fare'], s=suburban['driver_count']*2, c="#87cefa", alpha=0.4, label="Suburban")
+plt.scatter(x=rural['ride_id'], y=rural['fare'], s=rural['driver_count']*2, c="#f08080", alpha=0.4, label="Rural")
 # Add titles (main and on axis)
 plt.xlabel("Total Number of Rides per City")
 plt.ylabel("Average Fare per City($)")
 plt.title("Pyber Data")
 plt.axis(aspect='equal')
 
-plt.legend(scatterpoints=3, frameon=True, labelspacing=2, title='City Type', loc='best',
-           ncol=5,
+plt.legend(scatterpoints=1, frameon=True, labelspacing=2, title='City Type', loc='best',
            fontsize=10)
+#plt.figure(figsize=(50,25))
 plt.show()
 ```
 
 
-![png](output_12_0.png)
+![png](output_14_0.png)
+
+
+
+    <matplotlib.figure.Figure at 0x266ea860>
 
 
 
@@ -337,7 +574,7 @@ drivers
 
 
 ```python
-# Find the 
+# Find the rides in each city type
 city_type = merge_data.groupby("type").sum()
 city_type = city_type.reset_index(level=None, drop=False, inplace=False)
 city_type.head()
@@ -400,7 +637,8 @@ city_type.head()
 
 
 ```python
-# Pie chart #1
+# Pie chart 1
+# Pyber fares by city type
 plt.pie(
     # using data from groupby
     city_type['fare'],
@@ -430,7 +668,7 @@ plt.show()
 ```
 
 
-![png](output_15_0.png)
+![png](output_17_0.png)
 
 
 
@@ -523,7 +761,7 @@ plt.show()
 ```
 
 
-![png](output_17_0.png)
+![png](output_19_0.png)
 
 
 
@@ -561,5 +799,5 @@ plt.show()
 ```
 
 
-![png](output_18_0.png)
+![png](output_20_0.png)
 
